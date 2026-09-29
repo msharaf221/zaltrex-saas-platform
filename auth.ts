@@ -19,9 +19,29 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         const email = String(credentials.email).toLowerCase().trim();
         const password = String(credentials.password);
 
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
           where: { email },
         });
+
+        // Auto-provision initial admin on fresh database deployments
+        const defaultAdminEmail = (process.env.ADMIN_EMAIL || "admin@zaltrex.cloud").toLowerCase().trim();
+        const defaultAdminPass = process.env.ADMIN_PASSWORD || "adminpassword123";
+
+        if (!user && email === defaultAdminEmail && password === defaultAdminPass) {
+          try {
+            const hashedPassword = await bcrypt.hash(defaultAdminPass, 10);
+            user = await prisma.user.create({
+              data: {
+                name: "Zaltrex Administrator",
+                email: defaultAdminEmail,
+                password: hashedPassword,
+                role: "ADMIN",
+              },
+            });
+          } catch (createErr) {
+            console.warn("Auto-provision admin error:", createErr);
+          }
+        }
 
         if (!user || user.role !== "ADMIN") {
           return null;
