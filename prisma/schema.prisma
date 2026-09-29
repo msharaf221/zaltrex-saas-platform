@@ -23,14 +23,34 @@ model User {
 }
 
 model Project {
+  id               String   @id @default(cuid())
+  title            String
+  slug             String?  @unique
+  description      String
+  content          String?  // Detailed case study / full project explanation
+  imageUrl         String
+  category         String   @default("Cloud & Web Solutions")
+  tags             String?  // comma-separated tags e.g. "Next.js, AWS, PostgreSQL"
+  client           String?  // Client or Company name
+  liveUrl          String?  // Live website / demo link
+  githubUrl        String?  // Repository or source link
+  featured         Boolean  @default(false)
+  order            Int      @default(0)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Post {
   id          String   @id @default(cuid())
   title       String
-  description String
-  imageUrl    String
-  category    String   @default("Cloud Infrastructure")
-  tags        String?
-  featured    Boolean  @default(false)
-  order       Int      @default(0)
+  slug        String   @unique
+  excerpt     String   // Short summary for cards
+  content     String   // Full article body (markdown or text)
+  coverImage  String?  // Image banner
+  category    String   @default("Technology")
+  author      String   @default("Zaltrex Team")
+  readTime    String   @default("5 min read")
+  published   Boolean  @default(true)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -39,9 +59,40 @@ model Request {
   id             String   @id @default(cuid())
   name           String
   email          String
+  phone          String?
+  service        String?  @default("General Consultation")
   projectDetails String
   budget         String?
-  status         String   @default("PENDING")
+  status         String   @default("PENDING") // PENDING, CONTACTED, IN_PROGRESS, COMPLETED
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  clientName String
+  clientRole String   // e.g. "CTO, FinTech Ventures"
+  company    String
+  feedback   String
+  rating     Int      @default(5)
+  avatarUrl  String?
+  featured   Boolean  @default(true)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model AgentConfig {
+  id             String   @id @default("default_config")
+  botName        String   @default("Zaltrex AI Assistant")
+  welcomeMessage String   @default("Hello! I'm Zaltrex AI. How can I help you with your web, mobile, cloud, or enterprise software project today?")
+  systemPrompt   String
+  knowledgeBase  String   // The customizable knowledge base configured by the Admin
+  modelName      String   @default("gemini-2.5-flash")
+  geminiApiKey   String?  // Optional custom API key saved by admin
+  defaultTone    String   @default("auto") // "auto", "egyptian", "gulf", "formal", "english"
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+

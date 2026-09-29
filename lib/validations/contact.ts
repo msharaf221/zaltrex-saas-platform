@@ -7,7 +7,9 @@ export const contactSchema = z.object({
     .max(100, { message: "Name cannot exceed 100 characters." }),
   email: z
     .string()
-    .email({ message: "Please provide a valid enterprise email address." }),
+    .email({ message: "Please provide a valid email address." }),
+  phone: z.string().optional(),
+  service: z.string().optional(),
   projectDetails: z
     .string()
     .min(10, { message: "Project details must be at least 10 characters." })

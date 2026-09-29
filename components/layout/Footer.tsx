@@ -1,161 +1,138 @@
 "use client";
 
 import React from "react";
-import { useSound } from "../audio/SoundContext";
-import { useToast } from "../ui/ToastContext";
+import Link from "next/link";
 
 export default function Footer() {
-  const { playClick } = useSound();
-  const { showToast } = useToast();
-
-  const copyDocumentationLink = (e: React.MouseEvent) => {
-    e.preventDefault();
-    playClick();
-    const url = "https://docs.zaltrex.cloud";
-    navigator.clipboard
-      .writeText(url)
-      .then(() => {
-        showToast(`Copied to clipboard: ${url}`);
-      })
-      .catch(() => {
-        showToast("Copied to clipboard!");
-      });
-  };
-
-  const handleToastAction = (e: React.MouseEvent, message: string) => {
-    e.preventDefault();
-    playClick();
-    showToast(message);
-  };
-
   return (
     <footer className="border-t border-white/[0.08] bg-obsidian-950 py-16 text-sm text-slate-400 z-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-10 pb-12 border-b border-white/[0.06]">
+          {/* Brand & Mission */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <img
-                src="/Max_a_هات_لوجو_صغير.png"
-                onError={(e) => {
-                  e.currentTarget.src = "Max_a_هات_لوجو_صغير.png";
-                }}
-                alt="Zaltrex Mark"
-                className="w-8 h-8 object-contain rounded"
-              />
+            <Link href="/" className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 border border-white/15">
+                <img
+                  src="/Zpfp.png"
+                  alt="Zaltrex"
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
               <span className="text-xl font-black tracking-wider text-white">ZALTREX</span>
-            </div>
+            </Link>
             <p className="text-xs text-slate-400 max-w-sm leading-relaxed font-sans">
-              Next-generation distributed cloud fabric, high-throughput software architecture, and
-              sovereign intelligence for mission-critical organizations worldwide.
+              Zaltrex is an emerging IT Solutions &amp; Software Engineering startup. We build high-impact web platforms, custom mobile applications, cloud infrastructure, and AI-powered automation to empower businesses to scale securely.
             </p>
-            <div className="text-xs font-mono text-slate-500">
-              Build: #8f92b • Region: Edge Global Mesh
+            <div className="pt-2 text-xs font-mono text-slate-500 flex flex-col gap-1">
+              <div>📍 Cairo, Egypt &amp; Remote Global Delivery</div>
+              <div>✉️ contact@zaltrex.cloud | info@zaltrex.com</div>
             </div>
           </div>
 
+          {/* Navigation Links */}
           <div className="space-y-3 font-sans">
             <h4 className="text-xs font-mono font-bold tracking-wider text-white uppercase">
-              Product
+              Company
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a className="hover:text-white transition-colors" href="#platform">
-                  Edge Mesh Engine
-                </a>
+                <Link className="hover:text-white transition-colors" href="/about">
+                  About Zaltrex
+                </Link>
               </li>
               <li>
-                <a className="hover:text-white transition-colors" href="#playground">
-                  Live Console
-                </a>
+                <Link className="hover:text-white transition-colors" href="/services">
+                  Our Services
+                </Link>
               </li>
               <li>
-                <a className="hover:text-white transition-colors" href="#portfolio">
-                  Enterprise Suite
-                </a>
+                <Link className="hover:text-white transition-colors" href="/projects">
+                  Projects &amp; Case Studies
+                </Link>
               </li>
               <li>
-                <a className="hover:text-white transition-colors" href="#benchmark">
-                  Benchmark Tool
-                </a>
+                <Link className="hover:text-white transition-colors" href="/blog">
+                  Tech Blog &amp; Insights
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:text-white transition-colors" href="/contact">
+                  Contact &amp; Quotes
+                </Link>
               </li>
             </ul>
           </div>
 
+          {/* Core Services */}
           <div className="space-y-3 font-sans">
             <h4 className="text-xs font-mono font-bold tracking-wider text-white uppercase">
-              Resources
+              IT Services
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a
-                  className="hover:text-white transition-colors cursor-pointer"
-                  href="#"
-                  onClick={copyDocumentationLink}
-                >
-                  Documentation
-                </a>
+                <Link className="hover:text-white transition-colors" href="/services#web-cloud">
+                  Web &amp; Cloud Applications
+                </Link>
               </li>
               <li>
-                <a
-                  className="hover:text-white transition-colors cursor-pointer"
-                  href="#"
-                  onClick={(e) => handleToastAction(e, "API reference loaded!")}
-                >
-                  API Reference
-                </a>
+                <Link className="hover:text-white transition-colors" href="/services#custom-software">
+                  Custom Software &amp; ERP
+                </Link>
               </li>
               <li>
-                <a
-                  className="hover:text-white transition-colors cursor-pointer"
-                  href="#"
-                  onClick={(e) => handleToastAction(e, "Architecture whitepaper downloaded")}
-                >
-                  Whitepaper (PDF)
-                </a>
+                <Link className="hover:text-white transition-colors" href="/services#mobile-apps">
+                  Mobile App Development
+                </Link>
               </li>
               <li>
-                <a className="hover:text-white transition-colors" href="#">
-                  Changelog v4.8
-                </a>
+                <Link className="hover:text-white transition-colors" href="/services#ai-automation">
+                  AI &amp; Business Automation
+                </Link>
+              </li>
+              <li>
+                <Link className="hover:text-white transition-colors" href="/services#cybersecurity">
+                  Cybersecurity &amp; DevOps
+                </Link>
               </li>
             </ul>
           </div>
 
+          {/* Quick Connect & Admin */}
           <div className="space-y-3 font-sans">
             <h4 className="text-xs font-mono font-bold tracking-wider text-white uppercase">
-              Trust &amp; Legal
+              Client Portal
             </h4>
             <ul className="space-y-2 text-xs">
               <li>
-                <a className="hover:text-white transition-colors" href="#">
-                  Security Overview
+                <Link className="hover:text-white transition-colors" href="/contact">
+                  Request a Free Proposal
+                </Link>
+              </li>
+              <li>
+                <a
+                  className="hover:text-cyan-400 transition-colors"
+                  href="https://wa.me/201001234567"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Direct WhatsApp Chat ↗
                 </a>
               </li>
               <li>
-                <a className="hover:text-white transition-colors" href="#">
-                  SOC2 Compliance
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-white transition-colors" href="#">
-                  Privacy Policy
-                </a>
-              </li>
-              <li>
-                <a className="hover:text-white transition-colors" href="#">
-                  Terms of Service
-                </a>
+                <Link className="hover:text-white transition-colors flex items-center gap-1.5" href="/admin">
+                  <span>🔐 Admin CMS Login</span>
+                </Link>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono">
-          <div>© 2026 Zaltrex Cloud Systems Inc. All rights reserved.</div>
-          <div className="mt-4 sm:mt-0 flex items-center gap-6">
+          <div>© {new Date().getFullYear()} Zaltrex IT Solutions. All rights reserved.</div>
+          <div className="mt-4 sm:mt-0 flex items-center gap-4">
             <span className="flex items-center gap-1.5 text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              ALL CLOUD FABRICS OPERATIONAL
+              Accepting New Projects
             </span>
           </div>
         </div>

@@ -1,82 +1,62 @@
-"use client";
+import React from "react";
+import prisma from "@/lib/prisma";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import BackgroundEffects from "@/components/ui/BackgroundEffects";
+import HeroSection from "@/components/sections/HeroSection";
+import TechMarquee from "@/components/sections/TechMarquee";
+import ServicesPreview from "@/components/sections/ServicesPreview";
+import FeaturedProjects from "@/components/sections/FeaturedProjects";
+import WhyChooseUs from "@/components/sections/WhyChooseUs";
+import LatestBlogPosts from "@/components/sections/LatestBlogPosts";
+import ConsultationCTA from "@/components/sections/ConsultationCTA";
 
-import React, { useState, useEffect } from "react";
-import BackgroundEffects from "../components/ui/BackgroundEffects";
-import CommandPalette from "../components/ui/CommandPalette";
-import BlueprintModal from "../components/ui/BlueprintModal";
-import TelemetryBar from "../components/layout/TelemetryBar";
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
-import HeroSection from "../components/sections/HeroSection";
-import TechMarquee from "../components/sections/TechMarquee";
-import KeyMetrics from "../components/sections/KeyMetrics";
-import DeveloperConsole from "../components/sections/DeveloperConsole";
-import PortfolioSection from "../components/sections/PortfolioSection";
-import BenchmarkSimulator from "../components/sections/BenchmarkSimulator";
-import ContactSection from "../components/sections/ContactSection";
-import CallToAction from "../components/sections/CallToAction";
+export const revalidate = 60; // ISR cache revalidation
 
-export default function Home() {
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [modalData, setModalData] = useState<{
-    imgSrc: string;
-    title: string;
-    desc: string;
-  } | null>(null);
+export default async function HomePage() {
+  const [featuredProjects, recentPosts] = await Promise.all([
+    prisma.project.findMany({
+      where: { featured: true },
+      orderBy: { order: "asc" },
+      take: 3,
+    }),
+    prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+    }),
+  ]);
 
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setIsCommandPaletteOpen((prev) => !prev);
-      }
-      if (e.key === "Escape") {
-        setIsCommandPaletteOpen(false);
-        setModalData(null);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  // Fallback to latest projects if none marked featured
+  const displayProjects =
+    featuredProjects.length > 0
+      ? featuredProjects
+      : await prisma.project.findMany({
+          orderBy: { createdAt: "desc" },
+          take: 3,
+        });
 
   return (
     <>
-      {/* Background Interactive Canvases & Grids */}
+      {/* Background Interactive Ambient Effects */}
       <BackgroundEffects />
 
-      {/* Top Telemetry & Status Bar */}
-      <TelemetryBar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+      {/* Main Glassmorphic Navigation */}
+      <Navbar />
 
-      {/* Main Glassmorphism Header */}
-      <Navbar onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
-
-      {/* Main Content Area */}
+      {/* Main Page Flow */}
       <main className="flex-grow z-20">
         <HeroSection />
         <TechMarquee />
-        <KeyMetrics />
-        <DeveloperConsole />
-        <PortfolioSection onOpenModal={(data) => setModalData(data)} />
-        <BenchmarkSimulator />
-        <ContactSection />
-        <CallToAction />
+        <ServicesPreview />
+        <FeaturedProjects projects={displayProjects as any} />
+        <WhyChooseUs />
+        <LatestBlogPosts posts={recentPosts as any} />
+        <ConsultationCTA />
       </main>
 
-      {/* Footer */}
+      {/* Main Footer */}
       <Footer />
-
-      {/* Global Modals */}
-      <CommandPalette
-        isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-      />
-
-      <BlueprintModal
-        isOpen={modalData !== null}
-        data={modalData}
-        onClose={() => setModalData(null)}
-      />
     </>
   );
 }

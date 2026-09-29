@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SoundProvider } from "../components/audio/SoundContext";
 import { ToastProvider } from "../components/ui/ToastContext";
+import AiChatWidget from "../components/chat/AiChatWidget";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -42,7 +43,10 @@ export default function RootLayout({
     >
       <body className="selection:bg-cyan-500/30 selection:text-cyan-200 antialiased relative min-h-screen flex flex-col bg-obsidian-950 text-slate-100 overflow-x-hidden font-sans">
         <SoundProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            {children}
+            <AiChatWidget />
+          </ToastProvider>
         </SoundProvider>
       </body>
     </html>

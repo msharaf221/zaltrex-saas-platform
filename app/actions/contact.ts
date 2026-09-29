@@ -17,13 +17,15 @@ export async function submitContactRequest(formData: ContactFormData) {
       };
     }
 
-    const { name, email, projectDetails, budget } = validated.data;
+    const { name, email, phone, service, projectDetails, budget } = validated.data;
 
     // 1. Save Request to Database
     const newRequest = await prisma.request.create({
       data: {
         name,
         email,
+        phone: phone || null,
+        service: service || "General Consultation",
         projectDetails,
         budget: budget ?? "Unspecified",
         status: "PENDING",
