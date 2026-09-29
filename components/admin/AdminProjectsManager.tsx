@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   createProject,
   updateProject,
@@ -186,10 +187,12 @@ export default function AdminProjectsManager({ initialProjects }: AdminProjectsM
           >
             {/* Project Image & Badge */}
             <div className="relative h-48 w-full bg-obsidian-950 overflow-hidden">
-              <img
+              <Image
                 src={proj.imageUrl || "/Max_a_هات_الباكدج_مفصلة.png"}
                 alt={proj.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-3 left-3 flex items-center gap-2">
                 <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-950/80 text-cyan-300 border border-indigo-500/40 backdrop-blur-md">

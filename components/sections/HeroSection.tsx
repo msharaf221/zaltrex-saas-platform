@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HeroSection() {
   return (
@@ -95,9 +96,13 @@ export default function HeroSection() {
 
               {/* Cover Image */}
               <div className="relative">
-                <img
+                <Image
                   src="/Zcover.png"
                   alt="Zaltrex IT Solutions Showcase"
+                  width={1200}
+                  height={675}
+                  preload={true}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 1024px"
                   className="w-full h-auto object-cover max-h-[520px] select-none rounded-b-xl group-hover:scale-[1.01] transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent opacity-60"></div>

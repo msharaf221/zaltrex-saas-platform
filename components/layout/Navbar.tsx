@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
@@ -28,9 +29,12 @@ export default function Navbar() {
         {/* Brand Logo & Name */}
         <Link href="/" className="flex items-center gap-3.5 group">
           <div className="relative w-10 h-10 rounded-xl overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 via-slate-800 to-cyan-500/30 border border-white/15 shadow-lg shadow-indigo-500/10 group-hover:scale-105 group-hover:border-cyan-400/60 transition-all duration-300">
-            <img
+            <Image
               src="/Zpfp.png"
               alt="Zaltrex Logo"
+              width={40}
+              height={40}
+              preload={true}
               className="w-full h-full object-cover rounded-lg"
             />
           </div>

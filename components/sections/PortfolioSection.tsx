@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { useSound } from "../audio/SoundContext";
 
 interface PortfolioSectionProps {
@@ -44,15 +45,14 @@ export default function PortfolioSection({ onOpenModal }: PortfolioSectionProps)
             className="spotlight-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300"
           >
             <div className="relative h-64 overflow-hidden bg-obsidian-950">
-              <img
+              <Image
                 src="/Max_a_هات_الباكدج_مفصلة.png"
-                onError={(e) => {
-                  e.currentTarget.src = "Max_a_هات_الباكدج_مفصلة.png";
-                }}
                 alt="Full-Stack Enterprise Package"
-                className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-transparent opacity-70"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-transparent opacity-70 pointer-events-none"></div>
               <div className="absolute top-4 left-4">
                 <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 backdrop-blur-md">
                   CORE SUITE
@@ -111,15 +111,14 @@ export default function PortfolioSection({ onOpenModal }: PortfolioSectionProps)
             className="spotlight-card rounded-2xl overflow-hidden flex flex-col group transition-all duration-300"
           >
             <div className="relative h-64 overflow-hidden bg-obsidian-950">
-              <img
+              <Image
                 src="/Max_a_عندنا_شركة_it_اسمها_.png"
-                onError={(e) => {
-                  e.currentTarget.src = "Max_a_عندنا_شركة_it_اسمها_.png";
-                }}
                 alt="Cloud Infrastructure & Core Platform"
-                className="w-full h-full object-cover object-center group-hover:scale-110 transition-transform duration-700"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                className="object-cover object-center group-hover:scale-110 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-transparent opacity-70"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-transparent opacity-70 pointer-events-none"></div>
               <div className="absolute top-4 left-4">
                 <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 backdrop-blur-md">
                   CLOUD FABRIC
@@ -179,24 +178,21 @@ export default function PortfolioSection({ onOpenModal }: PortfolioSectionProps)
           >
             <div className="relative h-64 overflow-hidden bg-obsidian-950 grid grid-cols-2 gap-1 p-1">
               <div className="relative h-full overflow-hidden rounded-lg">
-                <img
+                <Image
                   src="/Max_a_هات_لوجو_احطه_على_ال.png"
-                  onError={(e) => {
-                    e.currentTarget.src = "Max_a_هات_لوجو_احطه_على_ال.png";
-                  }}
                   alt="Enterprise Brand Identity"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 16vw, 200px"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
               <div className="relative h-full overflow-hidden rounded-lg">
-                <img
+                <Image
                   src="/gemini-3.1-flash-lite-image (nano-banana-2-lite)_b_حلو_اوي_اللوجو_و_الك.jpeg"
-                  onError={(e) => {
-                    e.currentTarget.src =
-                      "gemini-3.1-flash-lite-image (nano-banana-2-lite)_b_حلو_اوي_اللوجو_و_الك.jpeg";
-                  }}
                   alt="AI Modules & System Design"
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  fill
+                  sizes="(max-width: 768px) 50vw, (max-width: 1200px) 16vw, 200px"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
               <div className="absolute top-4 left-4">

@@ -4,6 +4,7 @@ import Footer from "@/components/layout/Footer";
 import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata = {
   title: "About Us — Zaltrex IT Solutions",
@@ -120,8 +121,14 @@ export default function AboutPage() {
             <div className="p-3 rounded-3xl bg-gradient-to-br from-indigo-500/20 via-white/5 to-cyan-500/20 border border-white/10 shadow-2xl">
               <div className="rounded-2xl overflow-hidden bg-obsidian-950 p-8 space-y-6">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-xl bg-indigo-500/20 border border-indigo-500/40 p-2">
-                    <img src="/Zpfp.png" alt="Zaltrex" className="w-full h-full object-cover rounded" />
+                  <div className="w-12 h-12 rounded-xl bg-indigo-500/20 border border-indigo-500/40 p-2 relative overflow-hidden">
+                    <Image
+                      src="/Zpfp.png"
+                      alt="Zaltrex"
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover rounded"
+                    />
                   </div>
                   <div>
                     <div className="text-white font-bold text-lg font-sans">Zaltrex IT Solutions</div>

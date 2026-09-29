@@ -5,7 +5,14 @@ if (!process.env.DATABASE_URL) {
 }
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  compress: true,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 2592000, // 30 days
+  },
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
 };
 
 export default nextConfig;

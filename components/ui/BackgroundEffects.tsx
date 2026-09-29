@@ -51,16 +51,32 @@ export default function BackgroundEffects() {
       });
     }
 
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let isVisible = !document.hidden;
+
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden;
+      if (isVisible && !prefersReducedMotion) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
     const render = () => {
+      if (!isVisible) return;
       ctx.clearRect(0, 0, width, height);
 
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
-        p1.x += p1.vx;
-        p1.y += p1.vy;
+        if (!prefersReducedMotion) {
+          p1.x += p1.vx;
+          p1.y += p1.vy;
 
-        if (p1.x < 0 || p1.x > width) p1.vx *= -1;
-        if (p1.y < 0 || p1.y > height) p1.vy *= -1;
+          if (p1.x < 0 || p1.x > width) p1.vx *= -1;
+          if (p1.y < 0 || p1.y > height) p1.vy *= -1;
+        }
 
         if (mouse.x !== null && mouse.y !== null) {
           const dx = mouse.x - p1.x;
@@ -91,14 +107,19 @@ export default function BackgroundEffects() {
         }
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      if (!prefersReducedMotion && isVisible) {
+        animationFrameId = requestAnimationFrame(render);
+      }
     };
 
-    render();
+    if (!prefersReducedMotion) {
+      render();
+    }
 
     return () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import Image from "next/image";
 import { useSound } from "../audio/SoundContext";
 
 interface BlueprintModalProps {
@@ -54,12 +55,14 @@ export default function BlueprintModal({ isOpen, onClose, data }: BlueprintModal
             ✕
           </button>
         </div>
-        <div className="p-4 bg-black flex items-center justify-center max-h-[70vh] overflow-hidden">
-          <img
+        <div className="relative w-full h-[60vh] bg-black flex items-center justify-center overflow-hidden">
+          <Image
             id="modal-img"
             src={data.imgSrc}
             alt={data.title}
-            className="max-h-[65vh] w-auto object-contain rounded-lg shadow-lg"
+            fill
+            sizes="(max-width: 1024px) 100vw, 900px"
+            className="object-contain rounded-lg shadow-lg p-2"
           />
         </div>
         <div

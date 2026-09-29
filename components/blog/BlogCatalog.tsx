@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { PostRecord } from "@/components/admin/AdminPostsManager";
 
 interface BlogCatalogProps {
@@ -77,10 +78,12 @@ export default function BlogCatalog({ initialPosts }: BlogCatalogProps) {
           >
             {/* Cover Image */}
             <div className="relative h-48 overflow-hidden bg-obsidian-950">
-              <img
+              <Image
                 src={post.coverImage || "/Max_a_عندنا_شركة_it_اسمها_.png"}
                 alt={post.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute top-4 left-4">
                 <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-950/80 text-cyan-300 border border-indigo-500/40 backdrop-blur-md">

@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ProjectRecord } from "../admin/AdminProjectsManager";
 
 interface FeaturedProjectsProps {
@@ -46,12 +47,14 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
             >
               {/* Image Banner */}
               <div className="relative h-56 overflow-hidden bg-obsidian-950">
-                <img
+                <Image
                   src={proj.imageUrl || "/Max_a_هات_الباكدج_مفصلة.png"}
                   alt={proj.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-transparent opacity-80"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-obsidian-900 via-transparent to-transparent opacity-80 pointer-events-none"></div>
                 <div className="absolute top-4 left-4">
                   <span className="px-3 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-950/80 text-cyan-300 border border-indigo-500/40 backdrop-blur-md">
                     {proj.category}

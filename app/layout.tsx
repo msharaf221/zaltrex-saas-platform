@@ -3,17 +3,19 @@ import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { SoundProvider } from "../components/audio/SoundContext";
 import { ToastProvider } from "../components/ui/ToastContext";
-import AiChatWidget from "../components/chat/AiChatWidget";
+import AiChatWrapper from "../components/chat/AiChatWrapper";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
   weight: ["400", "500", "600", "700"],
 });
 
@@ -45,7 +47,7 @@ export default function RootLayout({
         <SoundProvider>
           <ToastProvider>
             {children}
-            <AiChatWidget />
+            <AiChatWrapper />
           </ToastProvider>
         </SoundProvider>
       </body>

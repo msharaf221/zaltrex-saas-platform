@@ -5,6 +5,7 @@ import Footer from "@/components/layout/Footer";
 import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -94,10 +95,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {post.coverImage && (
           <section className="max-w-4xl mx-auto px-6 sm:px-8 py-10">
             <div className="rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-obsidian-900 max-h-[480px]">
-              <img
+              <Image
                 src={post.coverImage}
                 alt={post.title}
-                className="w-full h-full object-cover"
+                width={1200}
+                height={600}
+                preload={true}
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                className="w-full h-auto max-h-[480px] object-cover"
               />
             </div>
           </section>

@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -12,9 +13,11 @@ export default function Footer() {
           <div className="md:col-span-2 space-y-4">
             <Link href="/" className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 border border-white/15">
-                <img
+                <Image
                   src="/Zpfp.png"
                   alt="Zaltrex"
+                  width={32}
+                  height={32}
                   className="w-full h-full object-cover rounded"
                 />
               </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import prisma from "@/lib/prisma";
 import Link from "next/link";
+import Image from "next/image";
 import AdminDashboardClient from "@/components/admin/AdminDashboardClient";
 import SignOutButton from "@/components/admin/SignOutButton";
 
@@ -31,8 +32,8 @@ export default async function AdminDashboardPage() {
       <header className="sticky top-0 z-40 w-full glass-panel border-b border-white/[0.08] px-6 sm:px-10 h-18 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 border border-white/15">
-              <img src="/Zpfp.png" alt="Zaltrex" className="w-full h-full object-cover rounded-lg" />
+            <div className="w-9 h-9 rounded-xl overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 border border-white/15 relative">
+              <Image src="/Zpfp.png" alt="Zaltrex" width={36} height={36} className="w-full h-full object-cover rounded-lg" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">

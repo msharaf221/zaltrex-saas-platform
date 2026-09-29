@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { PostRecord } from "../admin/AdminPostsManager";
 
 interface LatestBlogPostsProps {
@@ -41,10 +42,12 @@ export default function LatestBlogPosts({ posts }: LatestBlogPostsProps) {
               className="rounded-2xl border border-white/[0.08] bg-obsidian-900/80 overflow-hidden flex flex-col group hover:border-cyan-500/40 transition-all duration-300 shadow-xl hover:-translate-y-1"
             >
               <div className="relative h-48 overflow-hidden bg-obsidian-950">
-                <img
+                <Image
                   src={post.coverImage || "/Max_a_عندنا_شركة_it_اسمها_.png"}
                   alt={post.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-4 left-4">
                   <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-indigo-950/80 text-cyan-300 border border-indigo-500/40 backdrop-blur-md">

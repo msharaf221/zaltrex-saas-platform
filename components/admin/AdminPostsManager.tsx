@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import {
   createPost,
   updatePost,
@@ -206,9 +207,11 @@ export default function AdminPostsManager({ initialPosts }: AdminPostsManagerPro
                     <tr key={post.id} className="hover:bg-white/[0.02] transition-colors">
                       <td className="py-4 px-6 max-w-sm">
                         <div className="flex items-center gap-3">
-                          <img
+                          <Image
                             src={post.coverImage || "/Max_a_عندنا_شركة_it_اسمها_.png"}
                             alt={post.title}
+                            width={48}
+                            height={40}
                             className="w-12 h-10 object-cover rounded-lg border border-white/10 flex-shrink-0"
                           />
                           <div>

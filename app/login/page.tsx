@@ -4,6 +4,7 @@ import React, { useState, Suspense } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 
 function LoginForm() {
   const [email, setEmail] = useState("admin@zaltrex.cloud");
@@ -51,8 +52,8 @@ function LoginForm() {
         {/* Brand header */}
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 border border-white/20">
-              <img src="/Zpfp.png" alt="Zaltrex" className="w-full h-full object-cover rounded-lg" />
+            <div className="w-10 h-10 rounded-xl overflow-hidden p-0.5 bg-gradient-to-br from-indigo-500/30 to-cyan-500/30 border border-white/20 relative">
+              <Image src="/Zpfp.png" alt="Zaltrex" width={40} height={40} className="w-full h-full object-cover rounded-lg" />
             </div>
             <span className="text-2xl font-black tracking-wider text-white">ZALTREX</span>
           </Link>
