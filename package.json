@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "postinstall": "DATABASE_URL=\"${DATABASE_URL:-file:./dev.db}\" prisma generate",
-    "build": "DATABASE_URL=\"${DATABASE_URL:-file:./dev.db}\" prisma generate && DATABASE_URL=\"${DATABASE_URL:-file:./dev.db}\" (prisma db push --accept-data-loss || true) && next build",
-    "start": "DATABASE_URL=\"${DATABASE_URL:-file:./dev.db}\" next start",
+    "postinstall": "node scripts/ensure-env.js && prisma generate",
+    "build": "node scripts/ensure-env.js && prisma generate && prisma db push --accept-data-loss && next build",
+    "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
