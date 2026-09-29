@@ -29,13 +29,13 @@ function LoginForm() {
 
       if (res?.error) {
         setError("Access Denied: Invalid credentials or insufficient ADMIN clearance.");
+        setLoading(false);
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        // Hard navigate so browser sends session cookies in the HTTP request to /admin
+        window.location.href = callbackUrl;
       }
-    } catch {
-      setError("An unexpected authentication error occurred.");
-    } finally {
+    } catch (err: any) {
+      setError(err?.message || "An unexpected authentication error occurred.");
       setLoading(false);
     }
   };
