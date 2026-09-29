@@ -7,6 +7,8 @@ import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
 }
@@ -104,7 +106,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Article Body */}
         <section className="max-w-3xl mx-auto px-6 sm:px-8 py-8">
           <article className="prose prose-invert max-w-none space-y-6 text-slate-300 leading-relaxed text-sm sm:text-base font-sans">
-            {post.content.split("\n\n").map((block, idx) => {
+            {post.content.split("\n\n").map((block: string, idx: number) => {
               // Section Heading (###)
               if (block.startsWith("### ")) {
                 return (
@@ -132,7 +134,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 const items = block.split("\n");
                 return (
                   <ul key={idx} className="space-y-2 pl-4 list-disc text-slate-300 my-4">
-                    {items.map((it, i) => (
+                    {items.map((it: string, i: number) => (
                       <li key={i}>{it.replace(/^[-*]\s+/, "")}</li>
                     ))}
                   </ul>

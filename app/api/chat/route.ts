@@ -88,14 +88,14 @@ export async function POST(req: NextRequest) {
     // 4. Build Live Knowledge Grounding String
     const projectsSummary = projects
       .map(
-        (p, i) =>
+        (p: any, i: number) =>
           `${i + 1}. **${p.title}** (${p.category}): ${p.description} [Tech: ${p.tags || "Modern Web"}]`
       )
       .join("\n");
 
     const testimonialsSummary = testimonials
       .map(
-        (t) =>
+        (t: any) =>
           `- ${t.clientName} (${t.clientRole}, ${t.company}): "${t.feedback}" [Rating: ${t.rating}/5★]`
       )
       .join("\n");

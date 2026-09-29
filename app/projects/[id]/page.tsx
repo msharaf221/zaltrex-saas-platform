@@ -7,6 +7,8 @@ import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 interface ProjectDetailPageProps {
   params: Promise<{ id: string }>;
 }

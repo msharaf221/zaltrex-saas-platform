@@ -6,6 +6,7 @@ import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import BlogCatalog from "@/components/blog/BlogCatalog";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 60;
 
 export const metadata = {

@@ -11,6 +11,7 @@ import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import LatestBlogPosts from "@/components/sections/LatestBlogPosts";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 
+export const dynamic = "force-dynamic";
 export const revalidate = 60; // ISR cache revalidation
 
 export default async function HomePage() {
