@@ -1,58 +1,16 @@
 import React from "react";
 import Link from "next/link";
+import { ServicesContent, DEFAULT_SERVICES } from "@/lib/site-content";
 
-export const SERVICES_LIST = [
-  {
-    id: "web-cloud",
-    icon: "🌐",
-    title: "Web & SaaS Development",
-    description:
-      "Modern, ultra-fast web platforms and SaaS solutions built with Next.js, React, and scalable backend microservices.",
-    deliverables: ["Full-Stack Web Apps", "Custom SaaS Portals", "REST & GraphQL APIs", "Headless CMS"],
-  },
-  {
-    id: "custom-software",
-    icon: "⚙️",
-    title: "Custom Enterprise Software & ERP",
-    description:
-      "Bespoke software systems designed around your company's workflows, inventory, HR, accounting, and operations.",
-    deliverables: ["Custom ERP & CRM Systems", "Admin Dashboards", "Automated Workflows", "Legacy Modernization"],
-  },
-  {
-    id: "mobile-apps",
-    icon: "📱",
-    title: "Mobile App Development",
-    description:
-      "Native and cross-platform mobile applications for iOS & Android delivering fluid UX and real-time synchronization.",
-    deliverables: ["iOS & Android Apps", "React Native & Flutter", "App Store Publishing", "Push & Offline Sync"],
-  },
-  {
-    id: "ai-automation",
-    icon: "🤖",
-    title: "AI & Process Automation",
-    description:
-      "Integrate practical AI models into your business to automate customer support, analyze documents, and eliminate repetitive tasks.",
-    deliverables: ["Custom AI Chatbots", "Document OCR & Extraction", "Predictive Analytics", "CRM & Zapier Integrations"],
-  },
-  {
-    id: "cloud-devops",
-    icon: "☁️",
-    title: "Cloud Architecture & DevOps",
-    description:
-      "Architect, deploy, and monitor scalable cloud environments on AWS, Azure, or Google Cloud with automated CI/CD.",
-    deliverables: ["Docker & Kubernetes", "CI/CD Pipelines", "Multi-Region Cloud Setup", "Cost Optimization"],
-  },
-  {
-    id: "cybersecurity",
-    icon: "🛡️",
-    title: "Cybersecurity & IT Infrastructure",
-    description:
-      "Protect your intellectual property, client data, and systems with enterprise security standards and code audits.",
-    deliverables: ["Security Audits & Pentesting", "Data Encryption & Zero-Trust", "Backup & Disaster Recovery", "24/7 Monitoring"],
-  },
-];
+export const SERVICES_LIST = DEFAULT_SERVICES.items;
 
-export default function ServicesPreview() {
+interface ServicesPreviewProps {
+  content?: ServicesContent;
+}
+
+export default function ServicesPreview({ content = DEFAULT_SERVICES }: ServicesPreviewProps) {
+  const data = { ...DEFAULT_SERVICES, ...content };
+
   return (
     <section className="py-20 md:py-28 relative bg-obsidian-950/70 border-t border-white/[0.06]" id="services">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
@@ -61,15 +19,15 @@ export default function ServicesPreview() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 tracking-widest uppercase mb-3 font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-              What We Do
+              {data.badge}
             </div>
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white font-sans">
-              Comprehensive IT Solutions For Your Growth.
+              {data.title}
             </h2>
           </div>
           <div className="max-w-md">
             <p className="text-slate-400 text-sm leading-relaxed mb-3">
-              We design, build, and support the full technology lifecycle so your team can focus on growing your business.
+              {data.subtitle}
             </p>
             <Link
               href="/services"
@@ -81,9 +39,9 @@ export default function ServicesPreview() {
           </div>
         </div>
 
-        {/* 6 Services Grid */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {SERVICES_LIST.map((srv) => (
+          {data.items.map((srv) => (
             <div
               key={srv.id}
               className="p-7 rounded-2xl bg-obsidian-900/80 border border-white/[0.08] hover:border-cyan-500/40 transition-all duration-300 flex flex-col group hover:-translate-y-1 shadow-lg"
@@ -105,7 +63,7 @@ export default function ServicesPreview() {
                   Key Capabilities:
                 </div>
                 <div className="flex flex-wrap gap-1.5">
-                  {srv.deliverables.map((item, i) => (
+                  {srv.deliverables?.map((item, i) => (
                     <span
                       key={i}
                       className="px-2 py-0.5 rounded bg-white/[0.04] text-[10px] font-mono text-slate-300 border border-white/5"

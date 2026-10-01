@@ -24,15 +24,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         });
 
         // Auto-provision initial admin on fresh database deployments
-        const defaultAdminEmail = (process.env.ADMIN_EMAIL || "admin@zaltrex.cloud").toLowerCase().trim();
-        const defaultAdminPass = process.env.ADMIN_PASSWORD || "adminpassword123";
+        const defaultAdminEmail = (process.env.ADMIN_EMAIL || "muhamedhussein1105@gmail.com").toLowerCase().trim();
+        const defaultAdminPass = process.env.ADMIN_PASSWORD || "Muhamed@3512139M";
 
         if (!user && email === defaultAdminEmail && password === defaultAdminPass) {
           try {
             const hashedPassword = await bcrypt.hash(defaultAdminPass, 10);
             user = await prisma.user.create({
               data: {
-                name: "Zaltrex Administrator",
+                name: "Muhamed Hussein (Primary Admin)",
                 email: defaultAdminEmail,
                 password: hashedPassword,
                 role: "ADMIN",

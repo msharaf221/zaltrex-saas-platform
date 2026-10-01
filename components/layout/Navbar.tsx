@@ -4,10 +4,16 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { GeneralContent, DEFAULT_GENERAL } from "@/lib/site-content";
 
-export default function Navbar() {
+interface NavbarProps {
+  general?: GeneralContent;
+}
+
+export default function Navbar({ general = DEFAULT_GENERAL }: NavbarProps) {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const data = { ...DEFAULT_GENERAL, ...general };
 
   const navLinks = [
     { label: "Home", href: "/" },
@@ -41,14 +47,14 @@ export default function Navbar() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="text-xl sm:text-2xl font-black tracking-wider text-white font-sans bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-300">
-                ZALTREX
+                {data.siteName}
               </span>
               <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-[9px] font-mono font-bold bg-indigo-500/20 text-cyan-300 border border-indigo-500/40 tracking-wider">
-                IT SOLUTIONS
+                {data.badgeText}
               </span>
             </div>
             <span className="text-[10px] tracking-wider text-slate-400 uppercase font-mono font-medium">
-              Software &amp; Cloud Engineering
+              {data.tagline}
             </span>
           </div>
         </Link>

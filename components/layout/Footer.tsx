@@ -3,8 +3,20 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { FooterContent, GeneralContent, DEFAULT_FOOTER, DEFAULT_GENERAL } from "@/lib/site-content";
 
-export default function Footer() {
+interface FooterProps {
+  content?: FooterContent;
+  general?: GeneralContent;
+}
+
+export default function Footer({
+  content = DEFAULT_FOOTER,
+  general = DEFAULT_GENERAL,
+}: FooterProps) {
+  const footerData = { ...DEFAULT_FOOTER, ...content };
+  const generalData = { ...DEFAULT_GENERAL, ...general };
+
   return (
     <footer className="border-t border-white/[0.08] bg-obsidian-950 py-16 text-sm text-slate-400 z-20">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
@@ -21,14 +33,14 @@ export default function Footer() {
                   className="w-full h-full object-cover rounded"
                 />
               </div>
-              <span className="text-xl font-black tracking-wider text-white">ZALTREX</span>
+              <span className="text-xl font-black tracking-wider text-white">{generalData.siteName}</span>
             </Link>
             <p className="text-xs text-slate-400 max-w-sm leading-relaxed font-sans">
-              Zaltrex is an emerging IT Solutions &amp; Software Engineering startup. We build high-impact web platforms, custom mobile applications, cloud infrastructure, and AI-powered automation to empower businesses to scale securely.
+              {footerData.brandBio}
             </p>
             <div className="pt-2 text-xs font-mono text-slate-500 flex flex-col gap-1">
-              <div>📍 Cairo, Egypt &amp; Remote Global Delivery</div>
-              <div>✉️ contact@zaltrex.cloud | info@zaltrex.com</div>
+              <div>📍 {footerData.address}</div>
+              <div>✉️ {footerData.emails}</div>
             </div>
           </div>
 
@@ -114,7 +126,7 @@ export default function Footer() {
               <li>
                 <a
                   className="hover:text-cyan-400 transition-colors"
-                  href="https://wa.me/201001234567"
+                  href={generalData.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -131,11 +143,11 @@ export default function Footer() {
         </div>
 
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 font-mono">
-          <div>© {new Date().getFullYear()} Zaltrex IT Solutions. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} {footerData.copyrightNotice}</div>
           <div className="mt-4 sm:mt-0 flex items-center gap-4">
             <span className="flex items-center gap-1.5 text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              Accepting New Projects
+              {footerData.statusBadge}
             </span>
           </div>
         </div>

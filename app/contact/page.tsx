@@ -3,6 +3,17 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ContactForm from "@/components/contact/ContactForm";
+import {
+  getSectionContent,
+  DEFAULT_CONTACT,
+  DEFAULT_GENERAL,
+  DEFAULT_FOOTER,
+  ContactContent,
+  GeneralContent,
+  FooterContent,
+} from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Contact Us & Request a Quote — Zaltrex",
@@ -10,53 +21,35 @@ export const metadata = {
     "Get in touch with Zaltrex IT Solutions. Request a project proposal, schedule a free technical consultation, or chat directly with our engineering team.",
 };
 
-const FAQS = [
-  {
-    q: "How does the project onboarding process work?",
-    a: "We start with a free 30-minute discovery session to understand your business goals, target timelines, and technical constraints. Following that, we present a detailed proposal outlining the system architecture, milestone breakdown, and transparent pricing. Once approved, development sprints begin immediately.",
-  },
-  {
-    q: "What pricing models do you support?",
-    a: "We offer both Milestone-Based Fixed Pricing (ideal for well-defined MVPs and project scopes) and Dedicated Team / Time & Materials arrangements (ideal for evolving products requiring continuous feature development and agile iteration).",
-  },
-  {
-    q: "Do you sign an NDA before we share our project details?",
-    a: "Yes, absolutely. We treat all client concepts, intellectual property, and proprietary data with strict confidentiality. We provide our standard mutual NDA, or we are happy to review and sign yours prior to deep discussions.",
-  },
-  {
-    q: "Who owns the code and intellectual property?",
-    a: "You do. 100%. Upon completion of project milestones, all source code, deployment scripts, database schemas, and intellectual property belong entirely to your company without licensing strings attached.",
-  },
-  {
-    q: "Do you provide ongoing maintenance and SLA support?",
-    a: "Yes. After deployment, we offer flexible SLA support packages that include 24/7 uptime monitoring, security patching, dependency upgrades, cloud cost tuning, and continuous feature additions.",
-  },
-];
-
 interface ContactPageProps {
   searchParams: Promise<{ service?: string }>;
 }
 
 export default async function ContactPage({ searchParams }: ContactPageProps) {
-  const { service } = await searchParams;
+  const [{ service }, contact, general, footer] = await Promise.all([
+    searchParams,
+    getSectionContent<ContactContent>("contact", DEFAULT_CONTACT),
+    getSectionContent<GeneralContent>("general", DEFAULT_GENERAL),
+    getSectionContent<FooterContent>("footer", DEFAULT_FOOTER),
+  ]);
 
   return (
     <>
       <BackgroundEffects />
-      <Navbar />
+      <Navbar general={general} />
 
       <main className="flex-grow z-20">
         {/* Hero */}
         <section className="pt-20 pb-16 md:pt-28 md:pb-24 border-b border-white/[0.06] text-center">
           <div className="max-w-4xl mx-auto px-6 sm:px-8 space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-xs font-mono text-cyan-300 font-semibold">
-              <span>GET IN TOUCH</span>
+              <span>{contact.heroBadge}</span>
             </div>
             <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight font-sans">
-              Let's Build Something Exceptional Together.
+              {contact.heroTitle}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Have a project in mind, need a technical audit, or want a dedicated development team? We're ready to engineer your solution.
+              {contact.heroSubtitle}
             </p>
           </div>
         </section>
@@ -80,12 +73,12 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     💬
                   </span>
                   <div>
-                    <h3 className="text-lg font-bold text-white font-sans">WhatsApp Direct Chat</h3>
-                    <p className="text-xs text-emerald-400 font-mono">Instant communication</p>
+                    <h3 className="text-lg font-bold text-white font-sans">{contact.whatsappTitle}</h3>
+                    <p className="text-xs text-emerald-400 font-mono">{contact.whatsappSubtitle}</p>
                   </div>
                 </div>
                 <p className="text-xs text-slate-300 leading-relaxed">
-                  Prefer a fast chat? Message our technical team directly on WhatsApp to get immediate answers to your questions.
+                  {contact.whatsappDesc}
                 </p>
                 <a
                   href="https://wa.me/201001234567"
@@ -99,15 +92,15 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
 
               {/* Email & Info Card */}
               <div className="p-7 rounded-3xl bg-obsidian-900/80 border border-white/[0.08] shadow-xl space-y-6">
-                <h3 className="text-lg font-bold text-white font-sans">Direct Contact Information</h3>
+                <h3 className="text-lg font-bold text-white font-sans">{contact.directTitle}</h3>
 
                 <div className="space-y-4 font-mono text-xs">
                   <div className="flex items-start gap-3">
                     <span className="text-cyan-400 text-base">✉️</span>
                     <div>
                       <div className="text-slate-500 text-[10px] uppercase">Business Inquiries</div>
-                      <a href="mailto:contact@zaltrex.cloud" className="text-white hover:text-cyan-300 font-bold">
-                        contact@zaltrex.cloud
+                      <a href={`mailto:${contact.email}`} className="text-white hover:text-cyan-300 font-bold">
+                        {contact.email}
                       </a>
                     </div>
                   </div>
@@ -116,7 +109,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     <span className="text-indigo-400 text-base">📍</span>
                     <div>
                       <div className="text-slate-500 text-[10px] uppercase">Headquarters</div>
-                      <div className="text-white font-bold">Cairo, Egypt (Worldwide Remote Delivery)</div>
+                      <div className="text-white font-bold">{contact.address}</div>
                     </div>
                   </div>
 
@@ -124,15 +117,15 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
                     <span className="text-amber-400 text-base">⏱️</span>
                     <div>
                       <div className="text-slate-500 text-[10px] uppercase">Working Hours</div>
-                      <div className="text-white font-bold">Sun – Thu: 9:00 AM – 6:00 PM (EET)</div>
-                      <div className="text-slate-400 text-[11px] mt-0.5">Critical 24/7 monitoring for SLA clients</div>
+                      <div className="text-white font-bold">{contact.workingHours}</div>
+                      <div className="text-slate-400 text-[11px] mt-0.5">{contact.workingHoursSub}</div>
                     </div>
                   </div>
                 </div>
 
                 <div className="pt-4 border-t border-white/[0.06] text-xs font-mono text-slate-400 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span>Average response time: &lt; 2 business hours</span>
+                  <span>{contact.responseTime}</span>
                 </div>
               </div>
             </div>
@@ -153,7 +146,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
             </div>
 
             <div className="space-y-4">
-              {FAQS.map((faq, i) => (
+              {contact.faqs.map((faq, i) => (
                 <div
                   key={i}
                   className="p-6 rounded-2xl bg-obsidian-900/60 border border-white/[0.08] space-y-2"
@@ -172,7 +165,7 @@ export default async function ContactPage({ searchParams }: ContactPageProps) {
         </section>
       </main>
 
-      <Footer />
+      <Footer content={footer} general={general} />
     </>
   );
 }

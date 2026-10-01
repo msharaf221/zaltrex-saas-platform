@@ -5,6 +5,19 @@ import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import Link from "next/link";
 import Image from "next/image";
+import {
+  getSectionContent,
+  DEFAULT_ABOUT,
+  DEFAULT_CTA,
+  DEFAULT_GENERAL,
+  DEFAULT_FOOTER,
+  AboutContent,
+  CtaContent,
+  GeneralContent,
+  FooterContent,
+} from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "About Us — Zaltrex IT Solutions",
@@ -12,74 +25,31 @@ export const metadata = {
     "Learn about Zaltrex: our mission, values, and how our IT startup is helping modern businesses build scalable software, cloud infrastructure, and AI systems.",
 };
 
-const VALUES = [
-  {
-    icon: "💎",
-    title: "Uncompromising Code Quality",
-    desc: "We write clean, strictly-typed, and modular code with comprehensive automated tests. We don't take shortcuts that lead to technical debt.",
-  },
-  {
-    icon: "⚡",
-    title: "Velocity Without Chaos",
-    desc: "Speed matters in business. We leverage modern toolchains to ship functional MVPs in 2-6 weeks without sacrificing stability or architecture.",
-  },
-  {
-    icon: "🤝",
-    title: "Radical Transparency",
-    desc: "No technical jargon hiding real progress. You have full access to our Jira/Trello boards, GitHub commits, staging previews, and engineers.",
-  },
-  {
-    icon: "🛡️",
-    title: "Security & IP Ownership",
-    desc: "You own 100% of the intellectual property, repositories, and cloud resources from day one. Everything we build is protected under NDA.",
-  },
-];
+export default async function AboutPage() {
+  const [about, cta, general, footer] = await Promise.all([
+    getSectionContent<AboutContent>("about", DEFAULT_ABOUT),
+    getSectionContent<CtaContent>("cta", DEFAULT_CTA),
+    getSectionContent<GeneralContent>("general", DEFAULT_GENERAL),
+    getSectionContent<FooterContent>("footer", DEFAULT_FOOTER),
+  ]);
 
-const TECH_CATEGORIES = [
-  {
-    category: "Frontend & Web",
-    items: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Vue.js", "HTML5/CSS3"],
-  },
-  {
-    category: "Backend & Microservices",
-    items: ["Node.js", "Python", "FastAPI", "Go", "Express", "Prisma ORM"],
-  },
-  {
-    category: "Databases & Caching",
-    items: ["PostgreSQL", "MongoDB", "Redis", "SQLite", "Vector DBs (Pinecone, pgvector)"],
-  },
-  {
-    category: "Mobile Apps",
-    items: ["Flutter", "React Native", "iOS / Swift", "Android / Kotlin"],
-  },
-  {
-    category: "Cloud & DevOps",
-    items: ["Amazon Web Services (AWS)", "Docker", "Kubernetes", "Terraform", "GitHub Actions", "Vercel"],
-  },
-  {
-    category: "AI & Data",
-    items: ["OpenAI API", "LangChain", "HuggingFace", "RAG Pipelines", "Data Extraction OCR"],
-  },
-];
-
-export default function AboutPage() {
   return (
     <>
       <BackgroundEffects />
-      <Navbar />
+      <Navbar general={general} />
 
       <main className="flex-grow z-20">
         {/* Hero Section */}
         <section className="pt-20 pb-16 md:pt-28 md:pb-24 border-b border-white/[0.06] text-center">
           <div className="max-w-4xl mx-auto px-6 sm:px-8 space-y-4">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-xs font-mono text-cyan-300 font-semibold">
-              <span>ABOUT ZALTREX</span>
+              <span>{about.heroBadge}</span>
             </div>
             <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight font-sans">
-              Building The Future of Digital Infrastructure.
+              {about.heroTitle}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              We are an emerging IT Solutions &amp; Software Engineering startup dedicated to empowering businesses with modern digital capabilities.
+              {about.heroSubtitle}
             </p>
           </div>
         </section>
@@ -90,16 +60,16 @@ export default function AboutPage() {
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 tracking-widest uppercase font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                Our Origin
+                {about.originBadge}
               </div>
               <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight font-sans">
-                Engineered By Developers Who Care About Real Business Impact.
+                {about.originTitle}
               </h2>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Zaltrex was founded on a simple realization: too many software development agencies deliver either fragile prototypes that collapse under real traffic, or over-engineered, overpriced legacy systems that take a year to deploy.
+                {about.originP1}
               </p>
               <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                We set out to bridge this gap. By combining the speed and agility of an ambitious startup with the engineering discipline of enterprise cloud architects, we deliver software that is fast to market, easy to maintain, and ready to scale.
+                {about.originP2}
               </p>
               <div className="pt-2 flex items-center gap-4">
                 <Link
@@ -139,24 +109,24 @@ export default function AboutPage() {
                 <div className="grid grid-cols-2 gap-4 font-mono text-xs">
                   <div className="p-4 rounded-xl bg-obsidian-900 border border-white/10">
                     <div className="text-slate-400 text-[10px] uppercase">Headquarters</div>
-                    <div className="text-white font-bold mt-1">Cairo, Egypt</div>
+                    <div className="text-white font-bold mt-1">{about.stats.hq}</div>
                   </div>
                   <div className="p-4 rounded-xl bg-obsidian-900 border border-white/10">
                     <div className="text-slate-400 text-[10px] uppercase">Delivery Scope</div>
-                    <div className="text-cyan-300 font-bold mt-1">MENA &amp; Global</div>
+                    <div className="text-cyan-300 font-bold mt-1">{about.stats.scope}</div>
                   </div>
                   <div className="p-4 rounded-xl bg-obsidian-900 border border-white/10">
                     <div className="text-slate-400 text-[10px] uppercase">Agile Cadence</div>
-                    <div className="text-emerald-400 font-bold mt-1">1-Wk Sprints</div>
+                    <div className="text-emerald-400 font-bold mt-1">{about.stats.cadence}</div>
                   </div>
                   <div className="p-4 rounded-xl bg-obsidian-900 border border-white/10">
                     <div className="text-slate-400 text-[10px] uppercase">SLA Availability</div>
-                    <div className="text-indigo-300 font-bold mt-1">99.9% Uptime</div>
+                    <div className="text-indigo-300 font-bold mt-1">{about.stats.sla}</div>
                   </div>
                 </div>
 
                 <p className="text-xs text-slate-400 leading-relaxed italic border-t border-white/[0.08] pt-4">
-                  "Our mission is to equip startups and growing companies with technology foundations that give them an unfair competitive advantage."
+                  {about.stats.quote}
                 </p>
               </div>
             </div>
@@ -169,18 +139,18 @@ export default function AboutPage() {
             <div className="text-center max-w-3xl mx-auto mb-16">
               <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 tracking-widest uppercase mb-3 font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-                Our Philosophy
+                {about.valuesBadge}
               </div>
               <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white font-sans">
-                Core Engineering Values.
+                {about.valuesTitle}
               </h2>
               <p className="text-slate-400 text-sm mt-3">
-                The principles that govern every pull request, sprint review, and customer interaction.
+                {about.valuesSubtitle}
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {VALUES.map((v, i) => (
+              {about.values.map((v, i) => (
                 <div
                   key={i}
                   className="p-7 rounded-2xl bg-obsidian-900/60 border border-white/[0.08] hover:border-cyan-500/40 transition-all flex flex-col group"
@@ -205,18 +175,18 @@ export default function AboutPage() {
           <div className="text-center max-w-3xl mx-auto mb-16">
             <div className="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 tracking-widest uppercase mb-3 font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-              Technologies We Master
+              {about.techBadge}
             </div>
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white font-sans">
-              Our Battle-Tested Toolchain.
+              {about.techTitle}
             </h2>
             <p className="text-slate-400 text-sm mt-3">
-              We choose tools that maximize developer velocity, security, and long-term maintainability.
+              {about.techSubtitle}
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TECH_CATEGORIES.map((cat, idx) => (
+            {about.techCategories.map((cat, idx) => (
               <div
                 key={idx}
                 className="p-6 rounded-2xl bg-obsidian-900/80 border border-white/[0.08] space-y-4"
@@ -240,10 +210,10 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <ConsultationCTA />
+        <ConsultationCTA content={cta} />
       </main>
 
-      <Footer />
+      <Footer content={footer} general={general} />
     </>
   );
 }

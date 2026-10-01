@@ -10,12 +10,13 @@ import FeaturedProjects from "@/components/sections/FeaturedProjects";
 import WhyChooseUs from "@/components/sections/WhyChooseUs";
 import LatestBlogPosts from "@/components/sections/LatestBlogPosts";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
+import { getAllSiteContent } from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60; // ISR cache revalidation
 
 export default async function HomePage() {
-  const [featuredProjects, recentPosts] = await Promise.all([
+  const [featuredProjects, recentPosts, siteContent] = await Promise.all([
     prisma.project.findMany({
       where: { featured: true },
       orderBy: { order: "asc" },
@@ -26,6 +27,7 @@ export default async function HomePage() {
       orderBy: { createdAt: "desc" },
       take: 3,
     }),
+    getAllSiteContent(),
   ]);
 
   // Fallback to latest projects if none marked featured
@@ -43,21 +45,21 @@ export default async function HomePage() {
       <BackgroundEffects />
 
       {/* Main Glassmorphic Navigation */}
-      <Navbar />
+      <Navbar general={siteContent.general} />
 
       {/* Main Page Flow */}
       <main className="flex-grow z-20">
-        <HeroSection />
+        <HeroSection content={siteContent.hero} />
         <TechMarquee />
-        <ServicesPreview />
+        <ServicesPreview content={siteContent.services} />
         <FeaturedProjects projects={displayProjects as any} />
-        <WhyChooseUs />
+        <WhyChooseUs content={siteContent.why_us} />
         <LatestBlogPosts posts={recentPosts as any} />
-        <ConsultationCTA />
+        <ConsultationCTA content={siteContent.cta} />
       </main>
 
       {/* Main Footer */}
-      <Footer />
+      <Footer content={siteContent.footer} general={siteContent.general} />
     </>
   );
 }

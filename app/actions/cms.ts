@@ -146,6 +146,7 @@ export interface PostInput {
   excerpt: string;
   content: string;
   coverImage?: string;
+  galleryImages?: string[] | string | null;
   author?: string;
   readTime?: string;
   published?: boolean;
@@ -164,6 +165,15 @@ export async function createPost(data: PostInput) {
         "-" +
         Date.now().toString(36);
 
+    let serializedGallery: string | null = null;
+    if (data.galleryImages) {
+      if (Array.isArray(data.galleryImages)) {
+        serializedGallery = JSON.stringify(data.galleryImages);
+      } else if (typeof data.galleryImages === "string") {
+        serializedGallery = data.galleryImages;
+      }
+    }
+
     const post = await prisma.post.create({
       data: {
         title: data.title,
@@ -172,6 +182,7 @@ export async function createPost(data: PostInput) {
         excerpt: data.excerpt,
         content: data.content,
         coverImage: data.coverImage || "/Max_a_عندنا_شركة_it_اسمها_.png",
+        galleryImages: serializedGallery,
         author: data.author || "Zaltrex Team",
         readTime: data.readTime || "4 min read",
         published: data.published ?? true,
@@ -192,6 +203,17 @@ export async function updatePost(id: string, data: Partial<PostInput>) {
   try {
     await verifyAdmin();
 
+    let serializedGallery: string | null | undefined = undefined;
+    if (data.galleryImages !== undefined) {
+      if (Array.isArray(data.galleryImages)) {
+        serializedGallery = JSON.stringify(data.galleryImages);
+      } else if (typeof data.galleryImages === "string") {
+        serializedGallery = data.galleryImages;
+      } else if (data.galleryImages === null) {
+        serializedGallery = null;
+      }
+    }
+
     const post = await prisma.post.update({
       where: { id },
       data: {
@@ -200,6 +222,7 @@ export async function updatePost(id: string, data: Partial<PostInput>) {
         excerpt: data.excerpt,
         content: data.content,
         coverImage: data.coverImage,
+        ...(serializedGallery !== undefined ? { galleryImages: serializedGallery } : {}),
         author: data.author,
         readTime: data.readTime,
         published: data.published,
@@ -418,6 +441,67 @@ export async function deleteTestimonial(id: string) {
   } catch (error: any) {
     console.error("Error deleting testimonial:", error);
     return { success: false, error: error.message || "Failed to delete testimonial." };
+  }
+}
+
+// ----------------------------------------------------
+// SITE CONTENT & TEXTS ACTIONS (CONTROL EVERY CHARACTER)
+// ----------------------------------------------------
+export async function updateSiteSectionContent(key: string, data: any) {
+  try {
+    await verifyAdmin();
+
+    const jsonString = JSON.stringify(data);
+
+    const record = await prisma.siteContent.upsert({
+      where: { key },
+      update: {
+        data: jsonString,
+      },
+      create: {
+        key,
+        data: jsonString,
+      },
+    });
+
+    // Revalidate all pages to reflect changes instantly across the entire website
+    revalidatePath("/", "layout");
+    revalidatePath("/");
+    revalidatePath("/about");
+    revalidatePath("/services");
+    revalidatePath("/projects");
+    revalidatePath("/blog");
+    revalidatePath("/contact");
+    revalidatePath("/admin");
+
+    return { success: true, record };
+  } catch (error: any) {
+    console.error(`Error updating site content for section '${key}':`, error);
+    return { success: false, error: error.message || "Failed to update section content." };
+  }
+}
+
+export async function resetSiteSectionContent(key: string) {
+  try {
+    await verifyAdmin();
+
+    await prisma.siteContent.deleteMany({
+      where: { key },
+    });
+
+    revalidatePath("/", "layout");
+    revalidatePath("/");
+    revalidatePath("/about");
+    revalidatePath("/services");
+    revalidatePath("/projects");
+    revalidatePath("/blog");
+    revalidatePath("/contact");
+    revalidatePath("/admin");
+
+    return { success: true };
+  } catch (error: any) {
+    console.error(`Error resetting site content for section '${key}':`, error);
+    return { success: false, error: error.message || "Failed to reset section content." };
   }
 }
 

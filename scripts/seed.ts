@@ -7,8 +7,8 @@ async function main() {
   console.log("Seeding database for Zaltrex IT Solutions...");
 
   // 1. Seed / Upsert Admin User
-  const adminEmail = process.env.ADMIN_EMAIL || "admin@zaltrex.cloud";
-  const rawPassword = process.env.ADMIN_PASSWORD || "adminpassword123";
+  const adminEmail = (process.env.ADMIN_EMAIL || "muhamedhussein1105@gmail.com").toLowerCase().trim();
+  const rawPassword = process.env.ADMIN_PASSWORD || "Muhamed@3512139M";
   const hashedPassword = await bcrypt.hash(rawPassword, 10);
 
   const admin = await prisma.user.upsert({
@@ -18,7 +18,7 @@ async function main() {
       password: hashedPassword,
     },
     create: {
-      name: "Zaltrex Admin",
+      name: "Muhamed Hussein (Primary Admin)",
       email: adminEmail,
       password: hashedPassword,
       role: "ADMIN",

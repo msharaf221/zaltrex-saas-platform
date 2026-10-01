@@ -5,6 +5,9 @@ import AdminProjectsManager, { ProjectRecord } from "./AdminProjectsManager";
 import AdminPostsManager, { PostRecord } from "./AdminPostsManager";
 import AdminRequestsTable from "./AdminRequestsTable";
 import AdminAiAgentManager, { AgentConfigRecord } from "./AdminAiAgentManager";
+import AdminSiteContentManager from "./AdminSiteContentManager";
+import AdminUsersManager, { UserRecord } from "./AdminUsersManager";
+import { AllSiteContent } from "@/lib/site-content";
 
 interface RequestRecord {
   id: string;
@@ -24,6 +27,8 @@ interface AdminDashboardClientProps {
   initialPosts: PostRecord[];
   initialRequests: RequestRecord[];
   initialAgentConfig?: AgentConfigRecord | null;
+  initialSiteContent: AllSiteContent;
+  initialUsers: UserRecord[];
 }
 
 export default function AdminDashboardClient({
@@ -31,8 +36,10 @@ export default function AdminDashboardClient({
   initialPosts,
   initialRequests,
   initialAgentConfig,
+  initialSiteContent,
+  initialUsers,
 }: AdminDashboardClientProps) {
-  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "blog" | "inquiries" | "ai-agent">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "blog" | "inquiries" | "ai-agent" | "site-content" | "admins">("overview");
 
   const pendingRequests = initialRequests.filter((r) => r.status === "PENDING").length;
   const contactedRequests = initialRequests.filter((r) => r.status === "CONTACTED").length;
@@ -110,6 +117,33 @@ export default function AdminDashboardClient({
           <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold">
             Live
           </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("site-content")}
+          className={`px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+            activeTab === "site-content"
+              ? "bg-indigo-600/30 text-cyan-300 font-bold border border-indigo-500/40"
+              : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+          }`}
+        >
+          <span>🎨</span>
+          <span>Site Content &amp; Texts (نصوص الموقع)</span>
+          <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-gradient-to-r from-cyan-500/20 to-indigo-500/20 text-cyan-300 border border-cyan-500/40 font-bold">
+            Full Control
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("admins")}
+          className={`px-4 py-2.5 rounded-xl transition-all cursor-pointer flex items-center gap-2 ${
+            activeTab === "admins"
+              ? "bg-indigo-600/30 text-cyan-300 font-bold border border-indigo-500/40"
+              : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+          }`}
+        >
+          <span>👥</span>
+          <span>Admins &amp; Team ({initialUsers.length})</span>
         </button>
       </div>
 
@@ -271,6 +305,16 @@ export default function AdminDashboardClient({
           initialConfig={initialAgentConfig || null}
           aiLeads={initialRequests.filter((r) => r.service === "AI Chat Lead")}
         />
+      )}
+
+      {/* TAB CONTENT: Site Content & Texts */}
+      {activeTab === "site-content" && (
+        <AdminSiteContentManager initialContent={initialSiteContent} />
+      )}
+
+      {/* TAB CONTENT: Admins & Team Management */}
+      {activeTab === "admins" && (
+        <AdminUsersManager initialUsers={initialUsers} />
       )}
     </div>
   );

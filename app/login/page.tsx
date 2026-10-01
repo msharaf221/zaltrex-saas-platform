@@ -7,8 +7,8 @@ import Link from "next/link";
 import Image from "next/image";
 
 function LoginForm() {
-  const [email, setEmail] = useState("admin@zaltrex.cloud");
-  const [password, setPassword] = useState("adminpassword123");
+  const [email, setEmail] = useState("muhamedhussein1105@gmail.com");
+  const [password, setPassword] = useState("Muhamed@3512139M");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -118,11 +118,11 @@ function LoginForm() {
             </button>
           </form>
 
-          {/* Quick Credential hint for development convenience */}
+          {/* Quick Credential hint */}
           <div className="mt-6 pt-5 border-t border-white/[0.08] text-[11px] font-mono text-slate-500 space-y-1">
-            <div className="text-slate-400 font-semibold">Default Development Admin:</div>
-            <div>Email: <span className="text-cyan-400">admin@zaltrex.cloud</span></div>
-            <div>Password: <span className="text-indigo-400">adminpassword123</span></div>
+            <div className="text-slate-400 font-semibold">Primary Super Admin:</div>
+            <div>Email: <span className="text-cyan-400">muhamedhussein1105@gmail.com</span></div>
+            <div>Password: <span className="text-indigo-400">Muhamed@3512139M</span></div>
           </div>
         </div>
 

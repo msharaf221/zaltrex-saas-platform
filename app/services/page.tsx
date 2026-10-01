@@ -4,6 +4,17 @@ import Footer from "@/components/layout/Footer";
 import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import Link from "next/link";
+import {
+  getSectionContent,
+  DEFAULT_CTA,
+  DEFAULT_GENERAL,
+  DEFAULT_FOOTER,
+  CtaContent,
+  GeneralContent,
+  FooterContent,
+} from "@/lib/site-content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "IT Services & Solutions — Zaltrex",
@@ -138,11 +149,17 @@ const PROCESS_STEPS = [
   },
 ];
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const [cta, general, footer] = await Promise.all([
+    getSectionContent<CtaContent>("cta", DEFAULT_CTA),
+    getSectionContent<GeneralContent>("general", DEFAULT_GENERAL),
+    getSectionContent<FooterContent>("footer", DEFAULT_FOOTER),
+  ]);
+
   return (
     <>
       <BackgroundEffects />
-      <Navbar />
+      <Navbar general={general} />
 
       <main className="flex-grow z-20">
         {/* Page Hero */}
@@ -292,10 +309,10 @@ export default function ServicesPage() {
         </section>
 
         {/* Global CTA */}
-        <ConsultationCTA />
+        <ConsultationCTA content={cta} />
       </main>
 
-      <Footer />
+      <Footer content={footer} general={general} />
     </>
   );
 }

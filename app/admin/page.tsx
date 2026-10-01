@@ -4,11 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import AdminDashboardClient from "@/components/admin/AdminDashboardClient";
 import SignOutButton from "@/components/admin/SignOutButton";
+import { getAllSiteContent } from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboardPage() {
-  const [requests, projects, posts, agentConfig] = await Promise.all([
+  const [requests, projects, posts, agentConfig, siteContent, users] = await Promise.all([
     prisma.request.findMany({
       orderBy: { createdAt: "desc" },
     }),
@@ -20,6 +21,17 @@ export default async function AdminDashboardPage() {
     }),
     prisma.agentConfig.findFirst({
       where: { id: "default_config" },
+    }),
+    getAllSiteContent(),
+    prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        createdAt: true,
+      },
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -78,6 +90,8 @@ export default async function AdminDashboardPage() {
           initialPosts={posts}
           initialRequests={requests}
           initialAgentConfig={agentConfig}
+          initialSiteContent={siteContent}
+          initialUsers={users as any}
         />
       </main>
     </div>

@@ -90,6 +90,25 @@ export default function BlogCatalog({ initialPosts }: BlogCatalogProps) {
                   {post.category}
                 </span>
               </div>
+              {post.galleryImages && (() => {
+                try {
+                  const parsed = JSON.parse(post.galleryImages);
+                  const count = Array.isArray(parsed) ? parsed.length : 0;
+                  if (count > 0) {
+                    return (
+                      <div className="absolute top-4 right-4">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-mono font-bold bg-black/80 text-cyan-300 border border-cyan-500/40 backdrop-blur-md flex items-center gap-1.5 shadow-lg">
+                          <span>📷</span>
+                          <span>{count} photos</span>
+                        </span>
+                      </div>
+                    );
+                  }
+                } catch {
+                  return null;
+                }
+                return null;
+              })()}
             </div>
 
             {/* Post details */}

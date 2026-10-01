@@ -6,6 +6,15 @@ import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import ProjectsGallery from "@/components/projects/ProjectsGallery";
 import Link from "next/link";
+import {
+  getSectionContent,
+  DEFAULT_CTA,
+  DEFAULT_GENERAL,
+  DEFAULT_FOOTER,
+  CtaContent,
+  GeneralContent,
+  FooterContent,
+} from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60;
@@ -17,14 +26,19 @@ export const metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await prisma.project.findMany({
-    orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
-  });
+  const [projects, cta, general, footer] = await Promise.all([
+    prisma.project.findMany({
+      orderBy: [{ featured: "desc" }, { createdAt: "desc" }],
+    }),
+    getSectionContent<CtaContent>("cta", DEFAULT_CTA),
+    getSectionContent<GeneralContent>("general", DEFAULT_GENERAL),
+    getSectionContent<FooterContent>("footer", DEFAULT_FOOTER),
+  ]);
 
   return (
     <>
       <BackgroundEffects />
-      <Navbar />
+      <Navbar general={general} />
 
       <main className="flex-grow z-20">
         {/* Hero */}
@@ -47,10 +61,10 @@ export default async function ProjectsPage() {
           <ProjectsGallery initialProjects={projects as any} />
         </section>
 
-        <ConsultationCTA />
+        <ConsultationCTA content={cta} />
       </main>
 
-      <Footer />
+      <Footer content={footer} general={general} />
     </>
   );
 }

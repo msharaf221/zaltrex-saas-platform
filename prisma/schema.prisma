@@ -41,18 +41,19 @@ model Project {
 }
 
 model Post {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  excerpt     String   // Short summary for cards
-  content     String   // Full article body (markdown or text)
-  coverImage  String?  // Image banner
-  category    String   @default("Technology")
-  author      String   @default("Zaltrex Team")
-  readTime    String   @default("5 min read")
-  published   Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id            String   @id @default(cuid())
+  title         String
+  slug          String   @unique
+  excerpt       String   // Short summary for cards
+  content       String   // Full article body (markdown or text)
+  coverImage    String?  // Image banner
+  galleryImages String?  // JSON array string of additional uploaded images
+  category      String   @default("Technology")
+  author        String   @default("Zaltrex Team")
+  readTime      String   @default("5 min read")
+  published     Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Request {
@@ -94,5 +95,12 @@ model AgentConfig {
   isActive       Boolean  @default(true)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model SiteContent {
+  id        String   @id @default(cuid())
+  key       String   @unique // e.g. "general", "hero", "services", "why_us", "about", "contact", "cta", "footer"
+  data      String   // JSON string containing all the structured fields
+  updatedAt DateTime @updatedAt
 }
 

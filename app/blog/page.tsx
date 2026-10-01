@@ -5,6 +5,15 @@ import Footer from "@/components/layout/Footer";
 import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
 import BlogCatalog from "@/components/blog/BlogCatalog";
+import {
+  getSectionContent,
+  DEFAULT_CTA,
+  DEFAULT_GENERAL,
+  DEFAULT_FOOTER,
+  CtaContent,
+  GeneralContent,
+  FooterContent,
+} from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 60;
@@ -16,15 +25,20 @@ export const metadata = {
 };
 
 export default async function BlogPage() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: "desc" },
-  });
+  const [posts, cta, general, footer] = await Promise.all([
+    prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+    }),
+    getSectionContent<CtaContent>("cta", DEFAULT_CTA),
+    getSectionContent<GeneralContent>("general", DEFAULT_GENERAL),
+    getSectionContent<FooterContent>("footer", DEFAULT_FOOTER),
+  ]);
 
   return (
     <>
       <BackgroundEffects />
-      <Navbar />
+      <Navbar general={general} />
 
       <main className="flex-grow z-20">
         {/* Hero */}
@@ -47,10 +61,10 @@ export default async function BlogPage() {
           <BlogCatalog initialPosts={posts as any} />
         </section>
 
-        <ConsultationCTA />
+        <ConsultationCTA content={cta} />
       </main>
 
-      <Footer />
+      <Footer content={footer} general={general} />
     </>
   );
 }

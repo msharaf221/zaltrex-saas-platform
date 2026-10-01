@@ -4,9 +4,19 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import BackgroundEffects from "@/components/ui/BackgroundEffects";
 import ConsultationCTA from "@/components/sections/ConsultationCTA";
+import BlogPostGallery from "@/components/blog/BlogPostGallery";
 import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import {
+  getSectionContent,
+  DEFAULT_CTA,
+  DEFAULT_GENERAL,
+  DEFAULT_FOOTER,
+  CtaContent,
+  GeneralContent,
+  FooterContent,
+} from "@/lib/site-content";
 
 export const dynamic = "force-dynamic";
 
@@ -31,11 +41,32 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params;
 
-  const post = await prisma.post.findFirst({
-    where: { OR: [{ slug }, { id: slug }] },
-  });
+  const [post, cta, general, footer] = await Promise.all([
+    prisma.post.findFirst({
+      where: { OR: [{ slug }, { id: slug }] },
+    }),
+    getSectionContent<CtaContent>("cta", DEFAULT_CTA),
+    getSectionContent<GeneralContent>("general", DEFAULT_GENERAL),
+    getSectionContent<FooterContent>("footer", DEFAULT_FOOTER),
+  ]);
 
   if (!post || !post.published) notFound();
+
+  // Parse gallery images (JSON array or comma-separated list)
+  let galleryImages: string[] = [];
+  if (post.galleryImages) {
+    try {
+      const parsed = JSON.parse(post.galleryImages);
+      if (Array.isArray(parsed)) {
+        galleryImages = parsed.filter(Boolean);
+      }
+    } catch {
+      galleryImages = post.galleryImages
+        .split(",")
+        .map((s) => s.trim())
+        .filter(Boolean);
+    }
+  }
 
   const formattedDate = new Date(post.createdAt).toLocaleDateString("en-US", {
     month: "long",
@@ -46,7 +77,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <>
       <BackgroundEffects />
-      <Navbar />
+      <Navbar general={general} />
 
       <main className="flex-grow z-20">
         {/* Article Header */}
@@ -154,6 +185,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             })}
           </article>
 
+          {/* Post Image Gallery */}
+          {galleryImages.length > 0 && (
+            <BlogPostGallery images={galleryImages} postTitle={post.title} />
+          )}
+
           {/* Author Card Footer */}
           <div className="mt-14 p-6 sm:p-8 rounded-2xl bg-obsidian-900/80 border border-white/10 flex flex-col sm:flex-row items-center gap-6">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 p-0.5 flex-shrink-0">
@@ -171,10 +207,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </div>
         </section>
 
-        <ConsultationCTA />
+        <ConsultationCTA content={cta} />
       </main>
 
-      <Footer />
+      <Footer content={footer} general={general} />
     </>
   );
 }

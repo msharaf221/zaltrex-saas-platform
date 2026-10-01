@@ -3,8 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { HeroContent, DEFAULT_HERO } from "@/lib/site-content";
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  content?: HeroContent;
+}
+
+export default function HeroSection({ content = DEFAULT_HERO }: HeroSectionProps) {
+  const data = { ...DEFAULT_HERO, ...content };
+
   return (
     <section className="relative pt-16 pb-20 md:pt-24 md:pb-28 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
@@ -15,64 +22,64 @@ export default function HeroSection() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-cyan-400"></span>
             </span>
-            <span className="text-slate-300">ZALTREX IT SOLUTIONS</span>
-            <span className="text-slate-600">•</span>
-            <span className="text-cyan-400">Software &amp; Cloud Engineering</span>
+            <span className="text-slate-300">{data.badge}</span>
           </div>
 
           {/* Main Headline */}
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-[1.1]">
-            We Engineer High-Impact <br />
+            {data.titlePart1} <br />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-300 via-indigo-300 to-violet-400">
-              Software, Cloud &amp; AI
+              {data.titleHighlight}
             </span>{" "}
-            Solutions.
+            {data.titlePart2}
           </h1>
 
           {/* Subheadline */}
           <p className="max-w-2xl mx-auto text-base sm:text-lg text-slate-300 leading-relaxed font-normal">
-            From modern web applications and mobile apps to scalable cloud architectures and AI-driven automation, Zaltrex helps startups and growing businesses scale with confidence.
+            {data.subtitle}
           </p>
 
           {/* CTAs */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
-              href="/contact"
+              href={data.ctaPrimaryLink}
               className="w-full sm:w-auto inline-flex items-center justify-center px-8 py-4 text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 rounded-xl shadow-xl shadow-indigo-600/30 hover:shadow-cyan-500/40 transition-all duration-200 hover:-translate-y-0.5"
             >
-              <span>Start Your Project</span>
+              <span>{data.ctaPrimaryText}</span>
               <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </Link>
 
             <Link
-              href="/projects"
+              href={data.ctaSecondaryLink}
               className="w-full sm:w-auto inline-flex items-center justify-center px-7 py-4 text-sm font-mono font-medium text-slate-200 bg-obsidian-900/90 hover:bg-obsidian-850 border border-white/10 hover:border-cyan-400/40 rounded-xl transition-all duration-200 hover:-translate-y-0.5"
             >
-              <span>Explore Our Work</span>
+              <span>{data.ctaSecondaryText}</span>
               <span className="text-cyan-400 ml-2">→</span>
             </Link>
           </div>
 
           {/* Trust / Stats Bar */}
           <div className="pt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-center font-mono">
-            <div className="p-3.5 rounded-xl bg-obsidian-900/60 border border-white/[0.06]">
-              <div className="text-2xl font-black text-white">99.9%</div>
-              <div className="text-[11px] text-slate-400 uppercase mt-0.5">Uptime &amp; Quality</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-obsidian-900/60 border border-white/[0.06]">
-              <div className="text-2xl font-black text-cyan-300">2-6 Wks</div>
-              <div className="text-[11px] text-slate-400 uppercase mt-0.5">MVP Fast Delivery</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-obsidian-900/60 border border-white/[0.06]">
-              <div className="text-2xl font-black text-indigo-300">Modern</div>
-              <div className="text-[11px] text-slate-400 uppercase mt-0.5">Cloud-Native Stack</div>
-            </div>
-            <div className="p-3.5 rounded-xl bg-obsidian-900/60 border border-white/[0.06]">
-              <div className="text-2xl font-black text-emerald-400">24/7</div>
-              <div className="text-[11px] text-slate-400 uppercase mt-0.5">Dedicated Support</div>
-            </div>
+            {data.stats.map((stat, idx) => (
+              <div key={idx} className="p-3.5 rounded-xl bg-obsidian-900/60 border border-white/[0.06]">
+                <div
+                  className={`text-2xl font-black ${
+                    idx === 1
+                      ? "text-cyan-300"
+                      : idx === 2
+                      ? "text-indigo-300"
+                      : idx === 3
+                      ? "text-emerald-400"
+                      : "text-white"
+                  }`}
+                >
+                  {stat.value}
+                </div>
+                <div className="text-[11px] text-slate-400 uppercase mt-0.5">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
 
@@ -114,10 +121,10 @@ export default function HeroSection() {
                   </div>
                   <div>
                     <div className="text-[10px] text-cyan-400 uppercase tracking-wider font-bold">
-                      Enterprise Solutions &amp; Microservices
+                      {data.pillBadge}
                     </div>
                     <div className="text-white font-bold text-sm">
-                      Engineered for high performance, security &amp; scale
+                      {data.pillText}
                     </div>
                   </div>
                 </div>
